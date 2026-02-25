@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
 from app.core.database import get_db
-from app.schemas.cliente_schema import ClienteCreate, ClienteResponse
+from app.schemas.cliente_schema import ClienteCreate, ClienteResponse, ClienteDetailResponse
 from app.services.cliente_service import ClienteService
 
 router = APIRouter()
@@ -11,11 +10,11 @@ router = APIRouter()
 def listar_clientes(db: Session = Depends(get_db)):
     return ClienteService.listar(db)
 
-@router.get("/{cliente_id}", response_model=ClienteResponse)
+@router.get("/{cliente_id}", response_model=ClienteDetailResponse)
 def obtener_cliente_por_id(cliente_id: int, db: Session = Depends(get_db)):
     return ClienteService.obtener_por_id(db, cliente_id)
 
-@router.get("/correo-electronico/{cliente_correo}", response_model=ClienteResponse)
+@router.get("/correo-electronico/{cliente_correo}", response_model=ClienteDetailResponse)
 def obtener_cliente_por_correo_electronico(cliente_correo: str, db: Session = Depends(get_db)):
     return ClienteService.obtener_por_correo(db, cliente_correo)
 

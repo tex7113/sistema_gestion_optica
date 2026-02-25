@@ -1,5 +1,9 @@
+from typing import List
+
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import List
+from app.schemas.receta_schema import RecetaResponse
 
 class ClienteBase(BaseModel):
     nombre_completo: str
@@ -17,3 +21,6 @@ class ClienteResponse(ClienteBase):
 
     class Config:
         from_attributes = True
+
+class ClienteDetailResponse(ClienteResponse):
+    recetas: List[RecetaResponse] = []

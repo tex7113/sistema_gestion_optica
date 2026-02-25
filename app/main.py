@@ -12,4 +12,4 @@ app.include_router(orden_venta_controller.router, prefix="/orden-venta", tags=["
 
 @app.get("/")
 def root():
-    return {"message": "Sistema de Gestion Optica?"}
+    return {"message": "Sistema de Gestion Optica"}
