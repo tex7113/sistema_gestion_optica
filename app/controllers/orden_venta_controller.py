@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.schemas.orden_venta_schema import OrdenVentaCreate, OrdenVentaUpdate, OrdenVentaResponse
+from app.schemas.orden_venta_schema import OrdenVentaCreate, OrdenVentaUpdate, OrdenVentaResponse, OrdenVentaSumary
 from app.services.orden_venta_service import OrdenVentaService
 
 router = APIRouter()
@@ -31,3 +31,7 @@ def actualizar_orden_de_venta(orden_id: int,orden: OrdenVentaUpdate,db: Session 
 @router.delete("/{orden_id}",response_model=OrdenVentaResponse)
 def eliminar_orden_de_venta(orden_id: int,db: Session = Depends(get_db)):
     return OrdenVentaService.eliminar(db, orden_id)
+
+@router.get("/{orden_id}/resumen", response_model=OrdenVentaSumary)
+def resumen_financiero(orden_id:int, db: Session = Depends(get_db)):
+    return OrdenVentaService.resumen_financiero(db, orden_id)

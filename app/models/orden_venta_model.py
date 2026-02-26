@@ -1,5 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
+
+from fastapi import FastAPI
 from sqlalchemy import Integer,ForeignKey,Numeric,String,TIMESTAMP,func, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -30,3 +32,5 @@ class OrdenVenta(Base):
     # Relaciones
     cliente = relationship("Cliente", back_populates="ordenes_venta")
     receta = relationship("Receta", back_populates="ordenes_venta")
+    plan_pago = relationship("PlanPago", back_populates="orden", uselist=False, cascade="all, delete-orphan")
+    transacciones = relationship("Transaccion", back_populates="orden", cascade="all, delete-orphan")
