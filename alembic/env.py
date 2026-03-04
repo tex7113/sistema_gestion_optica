@@ -11,6 +11,7 @@ from app.models.receta_model import Receta
 from app.models.orden_venta_model import OrdenVenta
 from app.models.plan_pago_model import PlanPago
 from app.models.transaccion_model import Transaccion
+from app.models.usuario_model import Usuario
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

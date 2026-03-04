@@ -4,11 +4,12 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.orden_venta_schema import OrdenVentaCreate, OrdenVentaUpdate, OrdenVentaResponse, OrdenVentaSumary
 from app.services.orden_venta_service import OrdenVentaService
+from app.dependencies.auth_dependency import require_role
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[OrdenVentaResponse])
+@router.get("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=list[OrdenVentaResponse])
 def listar_ordenes_de_ventas(db: Session = Depends(get_db)):
     return OrdenVentaService.listar(db)
 
@@ -18,7 +19,7 @@ def obtener_orden_de_venta(orden_id: int, db: Session = Depends(get_db)):
     return OrdenVentaService.obtener_por_id(db, orden_id)
 
 
-@router.post("/", response_model=OrdenVentaResponse)
+@router.post("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=OrdenVentaResponse)
 def crear_orden_de_venta(orden: OrdenVentaCreate, db: Session = Depends(get_db)):
     return OrdenVentaService.crear(db, orden)
 
