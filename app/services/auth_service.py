@@ -29,12 +29,13 @@ class AuthService:
             "token__type": "bearer"
         }
 
-    @staticmethod
-    def registrar(db: Session, usuario_email: str, contrasenia: str, rol: str):
-        db_usuario = UsuarioRepository.get_by_email(db, usuario_email)
-        if db_usuario:
-            raise HTTPException(status_code=404, detail="El correo electronico ya esta en uso")
-
-        contrasenia_segura = hash_password(contrasenia)
-
-        return UsuarioRepository.create(db, usuario_email, contrasenia_segura, rol)
+#Registrar Administrador
+    # @staticmethod
+    # def registrar(db: Session, usuario_email: str, contrasenia: str, rol: str):
+    #     db_usuario = UsuarioRepository.get_by_email(db, usuario_email)
+    #     if db_usuario:
+    #         raise HTTPException(status_code=404, detail="El correo electronico ya esta en uso")
+    #
+    #     contrasenia_segura = hash_password(contrasenia)
+    #
+    #     return UsuarioRepository.create_admin(db, usuario_email, contrasenia_segura, rol)
