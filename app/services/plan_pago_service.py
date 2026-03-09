@@ -7,6 +7,10 @@ from app.repositories.orden_venta_repository import OrdenVentaRepository
 class PlanPagoService:
 
     @staticmethod
+    def listar(db: Session):
+        return PlanPagoRepository.get_all(db)
+
+    @staticmethod
     def crear(db: Session, data):
 
         db_orden = OrdenVentaRepository.get_by_id(db, data.orden_venta_id)

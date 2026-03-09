@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
 from decimal import Decimal
+from app.schemas.orden_venta_schema import OrdenVentaResumen
 
 class TransaccionBase(BaseModel):
     orden_venta_id: int
@@ -17,3 +18,7 @@ class TransaccionResponse(TransaccionBase):
 
     class Config:
         from_attributes = True
+
+class PagoResponse(BaseModel):
+    transaccion: TransaccionResponse
+    resumen_pago: OrdenVentaResumen

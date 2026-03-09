@@ -1,8 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional, Literal, List
+from typing import Optional, Literal
+
 from pydantic import BaseModel, Field
-from app.schemas.transaccion_schema import TransaccionResponse
 
 TipoPago = Literal["CONTADO", "CREDITO"]
 EstadoPago = Literal["PENDIENTE", "PAGADO"]
@@ -35,12 +35,12 @@ class OrdenVentaResponse(OrdenVentaBase):
         from_attributes = True
 
 
-class OrdenVentaSumary(BaseModel):
+class OrdenVentaResumen(BaseModel):
     orden_id: int
+    cliente: str
     monto_total: Decimal
     total_abonado: Decimal
     saldo_pendiente: Decimal
     pagos_realizados: int
     pagos_pendientes: int | None
     estado_pago: str
-    transacciones: List[TransaccionResponse] = []

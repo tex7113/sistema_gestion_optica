@@ -5,6 +5,10 @@ from app.models.plan_pago_model import PlanPago
 class PlanPagoRepository:
 
     @staticmethod
+    def get_all(db: Session):
+        return db.query(PlanPago).all()
+
+    @staticmethod
     def get_by_orden_venta(db: Session, orden_venta_id: int):
         return db.query(PlanPago).filter(PlanPago.orden_venta_id == orden_venta_id).first()
 

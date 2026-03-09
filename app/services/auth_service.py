@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 from app.core.security import verify_password, create_access_token
 from app.repositories.usuario_repository import UsuarioRepository
-from app.core.security import hash_password
 
 
 class AuthService:
