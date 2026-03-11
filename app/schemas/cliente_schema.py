@@ -16,6 +16,7 @@ class ClienteResponse(ClienteBase):
     id: int
     fecha_registro: datetime
     activo: bool
+    usuario_id: int
 
     class Config:
         from_attributes = True

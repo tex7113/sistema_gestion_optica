@@ -18,8 +18,8 @@ class RecetaRepository:
         return db.query(Receta).filter(Receta.cliente_id == cliente_id).all()
 
     @staticmethod
-    def create(db: Session, receta: RecetaCreate):
-        db_receta = Receta(**receta.model_dump())
+    def create(db: Session, receta: RecetaCreate, usuario_id:int):
+        db_receta = Receta(**receta.model_dump(), usuario_id = usuario_id)
         db.add(db_receta)
         db.commit()
         db.refresh(db_receta)

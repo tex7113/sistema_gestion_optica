@@ -26,7 +26,7 @@ class OrdenVentaService:
         return db_orden
 
     @staticmethod
-    def crear(db: Session, orden: OrdenVentaCreate):
+    def crear(db: Session, orden: OrdenVentaCreate, usuario_id:int):
 
         cliente = ClienteRepository.get_cliente_by_id(db, orden.cliente_id)
         if not cliente:
@@ -37,7 +37,7 @@ class OrdenVentaService:
             if not receta:
                 raise HTTPException(404, "Receta no existe")
 
-        return OrdenVentaRepository.create(db, orden)
+        return OrdenVentaRepository.create(db, orden, usuario_id)
 
     @staticmethod
     def actualizar(db: Session, orden_id: int, orden: OrdenVentaUpdate):

@@ -46,7 +46,8 @@ class RecetaUpdate(BaseModel):
 
 class RecetaResponse(RecetaBase):
     id: int
-    created_at: datetime
+    fecha_creacion: datetime
+    usuario_id: int
 
     class Config:
         from_attributes = True

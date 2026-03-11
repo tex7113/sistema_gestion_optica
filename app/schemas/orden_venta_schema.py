@@ -30,6 +30,7 @@ class OrdenVentaUpdate(BaseModel):
 class OrdenVentaResponse(OrdenVentaBase):
     id: int
     fecha_creacion: datetime
+    usuario_id: int
 
     class Config:
         from_attributes = True

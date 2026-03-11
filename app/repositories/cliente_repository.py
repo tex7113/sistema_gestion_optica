@@ -17,8 +17,8 @@ class ClienteRepository:
         return db.query(Cliente).filter(Cliente.correo_electronico == cliente_email).first()
 
     @staticmethod
-    def create_cliente(db: Session, cliente: ClienteCreate):
-        db_cliente = Cliente(**cliente.model_dump())
+    def create_cliente(db: Session, cliente: ClienteCreate, usuario_id:int):
+        db_cliente = Cliente(**cliente.model_dump(), usuario_id = usuario_id)
         db.add(db_cliente)
         db.commit()
         db.refresh(db_cliente)

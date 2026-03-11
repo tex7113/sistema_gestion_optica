@@ -4,34 +4,35 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.receta_schema import RecetaCreate, RecetaResponse, RecetaUpdate
 from app.services.receta_service import RecetaService
+from app.dependencies.auth_dependency import require_role,get_current_user
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[RecetaResponse])
+@router.get("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=list[RecetaResponse])
 def listar_recetas(db: Session = Depends(get_db)):
     return RecetaService.listar(db)
 
 
-@router.get("/{receta_id}", response_model=RecetaResponse)
+@router.get("/{receta_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=RecetaResponse)
 def obtener_receta_por_id(receta_id: int, db: Session = Depends(get_db)):
     return RecetaService.obtener(db, receta_id)
 
-@router.get("/cliente/{cliente_id}", response_model=list[RecetaResponse])
+@router.get("/cliente/{cliente_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=list[RecetaResponse])
 def obtener_recetas_por_cliente_id(cliente_id: int, db: Session = Depends(get_db)):
     return RecetaService.obtener_por_cliente_id(db, cliente_id)
 
 
-@router.post("/", response_model=RecetaResponse)
-def crear_receta(receta: RecetaCreate, db: Session = Depends(get_db)):
-    return RecetaService.crear(db, receta)
+@router.post("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=RecetaResponse)
+def crear_receta(receta: RecetaCreate, usuario = Depends(get_current_user), db: Session = Depends(get_db)):
+    return RecetaService.crear(db, receta, usuario.id)
 
 
-@router.put("/{receta_id}", response_model=RecetaResponse)
+@router.put("/{receta_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=RecetaResponse)
 def actualizar_receta(receta_id: int, receta: RecetaUpdate, db: Session = Depends(get_db)):
     return RecetaService.actualizar(db, receta_id, receta)
 
 
-@router.delete("/{receta_id}", response_model=RecetaResponse)
+@router.delete("/{receta_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=RecetaResponse)
 def eliminar_receta(receta_id: int, db: Session = Depends(get_db)):
     return RecetaService.eliminar(db, receta_id)

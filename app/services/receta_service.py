@@ -31,14 +31,14 @@ class RecetaService:
         return receta
 
     @staticmethod
-    def crear(db: Session, receta: RecetaCreate):
+    def crear(db: Session, receta: RecetaCreate, usuario_id:int):
 
         cliente = ClienteRepository.get_cliente_by_id(db, receta.cliente_id)
 
         if not cliente:
             raise HTTPException(404, "Cliente no existe")
 
-        return RecetaRepository.create(db, receta)
+        return RecetaRepository.create(db, receta, usuario_id)
 
     @staticmethod
     def actualizar(db: Session, receta_id: int, receta: RecetaUpdate):

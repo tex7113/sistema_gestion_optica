@@ -15,6 +15,7 @@ class TransaccionCreate(TransaccionBase):
 class TransaccionResponse(TransaccionBase):
     id: int
     fecha_pago: datetime
+    usuario_id: int
 
     class Config:
         from_attributes = True

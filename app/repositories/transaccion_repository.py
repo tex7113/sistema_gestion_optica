@@ -11,8 +11,8 @@ class TransaccionRepository:
         return db.query(Transaccion).filter(Transaccion.id == transaccion_id).first()
 
     @staticmethod
-    def create(db: Session, transaccion):
-        trans = Transaccion(**transaccion.model_dump())
+    def create(db: Session, transaccion, usuario_id: int):
+        trans = Transaccion(**transaccion.model_dump(), usuario_id = usuario_id)
         db.add(trans)
         db.commit()
         db.refresh(trans)

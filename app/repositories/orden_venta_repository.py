@@ -15,8 +15,8 @@ class OrdenVentaRepository:
         return db.query(OrdenVenta).filter(OrdenVenta.id == orden_id).first()
 
     @staticmethod
-    def create(db: Session, orden: OrdenVentaCreate):
-        db_orden = OrdenVenta(**orden.model_dump())
+    def create(db: Session, orden: OrdenVentaCreate, usuario_id:int):
+        db_orden = OrdenVenta(**orden.model_dump(), usuario_id = usuario_id)
         db.add(db_orden)
         db.commit()
         db.refresh(db_orden)

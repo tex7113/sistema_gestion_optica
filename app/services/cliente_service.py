@@ -24,11 +24,11 @@ class ClienteService:
         return db_cliente
 
     @staticmethod
-    def crear(db: Session, cliente: ClienteCreate):
+    def crear(db: Session, cliente: ClienteCreate, usuario_id: int):
         db_cliente = ClienteRepository.get_cliente_by_email(db, cliente.correo_electronico)
         if db_cliente:
             raise HTTPException(status_code=400, detail="El cliente ya existe")
-        return ClienteRepository.create_cliente(db, cliente)
+        return ClienteRepository.create_cliente(db, cliente, usuario_id)
 
     @staticmethod
     def actualizar(db: Session, cliente_id: int, cliente: ClienteCreate):

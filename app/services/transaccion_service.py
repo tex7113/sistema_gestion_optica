@@ -20,7 +20,7 @@ class TransaccionService:
         return db_transaccion
 
     @staticmethod
-    def crear(db: Session, transaccion):
+    def crear(db: Session, transaccion, usuario_id: int):
 
         db_orden = OrdenVentaRepository.get_by_id(db, transaccion.orden_venta_id)
 
@@ -37,7 +37,7 @@ class TransaccionService:
         if nuevo_total > db_orden.monto_total:
             raise HTTPException(400,"El abono excede el monto total")
 
-        db_transaccion = TransaccionRepository.create(db, transaccion)
+        db_transaccion = TransaccionRepository.create(db, transaccion, usuario_id)
 
         # Actualizar estado automáticamente
         if nuevo_total == db_orden.monto_total:

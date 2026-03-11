@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 
 from sqlalchemy import Boolean, Integer, String, Enum, TIMESTAMP, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
 
@@ -23,3 +23,10 @@ class Usuario(Base):
     rol: Mapped[Enum] = mapped_column(Enum(RolEnum), nullable=False)
     fecha_registro: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True),server_default=func.now(), nullable=False)
     activo: Mapped[bool] = mapped_column(Boolean, server_default="true", nullable=False)
+
+    #Relaciones
+
+    clientes = relationship("Cliente", back_populates="usuario")
+    recetas = relationship("Receta", back_populates="usuario")
+    ordenes_venta = relationship("OrdenVenta", back_populates="usuario")
+    transacciones = relationship("Transaccion", back_populates="usuario")

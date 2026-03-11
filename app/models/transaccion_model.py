@@ -7,6 +7,7 @@ from app.core.database import Base
 class Transaccion(Base):
     __tablename__ = "transacciones"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index= True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="SET NULL"), nullable=False, index=True)
     orden_venta_id: Mapped[int] = mapped_column(
         ForeignKey(
             "ordenes_venta.id",
@@ -26,3 +27,4 @@ class Transaccion(Base):
 
     #Relaciones
     orden = relationship("OrdenVenta", back_populates="transacciones")
+    usuario = relationship("Usuario", back_populates="transacciones")

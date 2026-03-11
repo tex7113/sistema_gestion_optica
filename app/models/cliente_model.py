@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, Boolean, TIMESTAMP, func
+from sqlalchemy import String, Integer, Boolean, TIMESTAMP, func, ForeignKey
 from datetime import datetime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -7,6 +7,7 @@ class Cliente(Base):
     __tablename__ = "clientes"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="RESTRICT"), nullable=False, index=True)
     nombre_completo: Mapped[str] = mapped_column(String(150))
     telefono: Mapped[str] = mapped_column(String(20))
     correo_electronico: Mapped[str] = mapped_column(String(150), unique=True, index=True)
@@ -17,3 +18,4 @@ class Cliente(Base):
     #
     recetas = relationship("Receta", back_populates="cliente", cascade="all, delete-orphan")
     ordenes_venta = relationship("OrdenVenta", back_populates="cliente")
+    usuario = relationship("Usuario", back_populates="clientes")
