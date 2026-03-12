@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.controllers import cliente_controller
 from app.controllers import receta_controller
@@ -9,6 +10,14 @@ from app.controllers import auth_controller
 from app.controllers import usuario_controller
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(cliente_controller.router, prefix='/clientes', tags=['CLIENTES (clientes)'])
 app.include_router(receta_controller.router, prefix="/recetas", tags=["RECETAS (recetas)"])
