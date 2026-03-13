@@ -1,14 +1,18 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
 from app.core.database import get_db
+from app.schemas.auth_schema import Login, Token
 from app.services.auth_service import AuthService
-from app.schemas.usuario_schema import UsuarioCreate
 
 router = APIRouter()
 
-@router.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+@router.post("/login", response_model=Token)
+def login(data: Login, db: Session = Depends(get_db)):
+    return AuthService.login(db, data.correo_electronico, data.contrasenia)
+
+@router.post("/token", response_model=Token)
+def login_swagger(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     return AuthService.login(db, form_data.username, form_data.password)
 
 #Registrar Administrador

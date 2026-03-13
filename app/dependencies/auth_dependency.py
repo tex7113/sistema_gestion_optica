@@ -5,7 +5,7 @@ from app.repositories.usuario_repository import UsuarioRepository
 from app.core.database import get_db
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), db=Depends(get_db)):

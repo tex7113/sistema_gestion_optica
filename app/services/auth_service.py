@@ -1,9 +1,9 @@
 from fastapi import HTTPException
+from pydantic import EmailStr
 from sqlalchemy.orm import Session
-
 from app.core.security import verify_password, create_access_token
 from app.repositories.usuario_repository import UsuarioRepository
-from app.core.security import hash_password
+from app.schemas.auth_schema import Token
 
 
 class AuthService:
@@ -24,10 +24,10 @@ class AuthService:
             "rol": db_usuario.rol
         })
 
-        return {
-            "access_token": token,
-            "token__type": "bearer"
-        }
+        return Token(
+            access_token=token,
+            token_type="bearer"
+        )
 
 #Registrar Administrador
     # @staticmethod

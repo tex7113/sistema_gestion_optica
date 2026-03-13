@@ -13,6 +13,8 @@ class Cliente(Base):
     correo_electronico: Mapped[str] = mapped_column(String(150), unique=True, index=True)
     fecha_registro: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True),server_default=func.now(), nullable=False)
     activo: Mapped[bool] = mapped_column(Boolean, server_default="true", nullable=False)
+    edad: Mapped[int] = mapped_column(Integer, nullable=True)
+    direccion: Mapped[str] = mapped_column(String(255), nullable=True)
 
     #Relacion
     #

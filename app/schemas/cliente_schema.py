@@ -7,6 +7,8 @@ class ClienteBase(BaseModel):
     nombre_completo: str
     correo_electronico: EmailStr
     telefono: str
+    edad: int|None = None
+    direccion: str|None = None
 
 
 class ClienteCreate(ClienteBase):
