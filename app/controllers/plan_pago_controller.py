@@ -8,7 +8,7 @@ from app.dependencies.auth_dependency import require_role
 router = APIRouter()
 
 @router.get("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=list[PlanPagoResponse])
-def obtener_planes_pagos(db: Session = Depends(get_db)):
+def obtener_planes_de_pagos(db: Session = Depends(get_db)):
     return PlanPagoService.listar(db)
 
 @router.post("/", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=PlanPagoResponse)

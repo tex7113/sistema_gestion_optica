@@ -18,6 +18,9 @@ class PlanPagoService:
         if not db_orden:
             raise HTTPException(404, "La orden de venta no existe")
 
+        if db_orden.estado_pago == "PAGADO":
+            raise HTTPException(400,"La orden de venta seleccionada ya hacido pagada")
+
         if db_orden.tipo_pago != "CREDITO":
             raise HTTPException(400,"Solo órdenes de venta a crédito pueden tener plan de pagos")
 

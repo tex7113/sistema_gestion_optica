@@ -7,6 +7,10 @@ from app.models.transaccion_model import Transaccion
 class TransaccionRepository:
 
     @staticmethod
+    def get_all(db: Session):
+        return db.query(Transaccion).all()
+
+    @staticmethod
     def get_by_id(db: Session, transaccion_id: int):
         return db.query(Transaccion).filter(Transaccion.id == transaccion_id).first()
 
@@ -14,8 +18,7 @@ class TransaccionRepository:
     def create(db: Session, transaccion, usuario_id: int):
         trans = Transaccion(**transaccion.model_dump(), usuario_id = usuario_id)
         db.add(trans)
-        db.commit()
-        db.refresh(trans)
+        db.flush()
         return trans
 
     @staticmethod

@@ -1,7 +1,7 @@
-from sqlalchemy.orm import Session
-
+from sqlalchemy.orm import Session, joinedload, load_only
 from app.models.orden_venta_model import OrdenVenta
 from app.schemas.orden_venta_schema import OrdenVentaCreate, OrdenVentaUpdate
+from app.models.cliente_model import Cliente
 
 
 class OrdenVentaRepository:
@@ -46,3 +46,7 @@ class OrdenVentaRepository:
         db.delete(db_orden)
         db.commit()
         return db_orden
+
+    @staticmethod
+    def get_resumen(db: Session, orden_id: int):
+        return db.query(OrdenVenta).options(joinedload(OrdenVenta.cliente).load_only(Cliente.nombre_completo, Cliente.telefono)).filter(OrdenVenta.id == orden_id).one_or_none()

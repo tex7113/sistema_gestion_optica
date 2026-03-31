@@ -38,7 +38,8 @@ class OrdenVentaResponse(OrdenVentaBase):
 
 class OrdenVentaResumen(BaseModel):
     orden_id: int
-    cliente: str
+    cliente_nombre: str
+    cliente_telefono: str
     monto_total: Decimal
     total_abonado: Decimal
     saldo_pendiente: Decimal

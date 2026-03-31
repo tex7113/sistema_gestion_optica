@@ -65,12 +65,12 @@ class OrdenVentaService:
     @staticmethod
     def resumen_financiero(db: Session, orden_id: int, fecha_hasta: datetime = None):
 
-        db_orden:OrdenVentaResponse = OrdenVentaRepository.get_by_id(db, orden_id)
+        db_orden = OrdenVentaRepository.get_resumen(db, orden_id)
 
         if not db_orden:
             raise HTTPException(404, "Orden no encontrada")
 
-        db_cliente:ClienteResponse = ClienteRepository.get_cliente_by_id(db, db_orden.cliente_id)
+        db_cliente = db_orden.cliente
         total_abonado = TransaccionRepository.total_paid(db, orden_id, fecha_hasta)
         cantidad_pagos = TransaccionRepository.total_payments(db, orden_id, fecha_hasta)
 
@@ -85,7 +85,8 @@ class OrdenVentaService:
 
         return OrdenVentaResumen(
             orden_id=db_orden.id,
-            cliente=db_cliente.nombre_completo,
+            cliente_nombre=db_cliente.nombre_completo,
+            cliente_telefono=db_cliente.telefono,
             monto_total=db_orden.monto_total,
             total_abonado=total_abonado,
             saldo_pendiente=saldo_pendiente,
