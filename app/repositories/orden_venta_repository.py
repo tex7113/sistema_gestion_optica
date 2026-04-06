@@ -1,7 +1,8 @@
-from sqlalchemy.orm import Session, joinedload, load_only
+from sqlalchemy.orm import Session, joinedload
+
+from app.models.cliente_model import Cliente
 from app.models.orden_venta_model import OrdenVenta
 from app.schemas.orden_venta_schema import OrdenVentaCreate, OrdenVentaUpdate
-from app.models.cliente_model import Cliente
 
 
 class OrdenVentaRepository:

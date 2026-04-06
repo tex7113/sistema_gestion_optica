@@ -1,6 +1,6 @@
-from contextlib import contextmanager
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+
 from app.repositories.orden_venta_repository import OrdenVentaRepository
 from app.repositories.transaccion_repository import TransaccionRepository
 from app.schemas.orden_venta_schema import OrdenVentaResponse
@@ -89,7 +89,7 @@ class TransaccionService:
         data = {
             "orden_id": db_transaccion.orden_venta_id,
             "transaccion_id": db_transaccion.id,
-            "cliente_nombre": db_resumen.cliente,
+            "cliente_nombre": db_resumen.cliente_nombre,
             "cliente_telefono": db_resumen.cliente_telefono,
             "fecha": db_transaccion.fecha_pago,
             "metodo_pago": db_transaccion.metodo_pago,

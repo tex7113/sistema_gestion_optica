@@ -24,7 +24,7 @@ def obtener_transacciones(db: Session = Depends(get_db)):
 def consultar_saldo_pendiente(orden_venta_id: int, db: Session = Depends(get_db)):
     return TransaccionService.saldo_pendiente(db, orden_venta_id)
 
-@router.get("/ticket/{id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))])
+@router.get("/ticket/{id}")
 def descargar_ticket(transaccion_id: int, db: Session = Depends(get_db)):
     pdf = TransaccionService.generar_ticket_pago(db, transaccion_id)
     return Response(
