@@ -1,3 +1,4 @@
+from zoneinfo import ZoneInfo
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
@@ -73,11 +74,12 @@ class TransaccionService:
     def saldo_pendiente(db: Session, orden_venta_id: int):
         db_orden_venta: OrdenVentaResponse = OrdenVentaRepository.get_by_id(db, orden_venta_id)
         total_abonado = TransaccionRepository.total_paid(db, orden_venta_id)
+        print("*********************************************************")
         return str(db_orden_venta.monto_total - total_abonado)
 
 
     @staticmethod
-    def generar_ticket_pago(db: Session, transaccion_id: int):
+    def generar_ticket_pago(db: Session, transaccion_id: int, timezone: str = "UTC"):
         db_transaccion: TransaccionResponse = TransaccionRepository.get_by_id(db, transaccion_id)
         if db_transaccion is None:
             raise HTTPException(status_code=404, detail="No se encontro ninguna transaccion")
@@ -86,12 +88,17 @@ class TransaccionService:
         if db_resumen is None:
             raise HTTPException(status_code=404, detail="error")
 
+        tz = ZoneInfo(timezone)
+
+        fecha_local = db_transaccion.fecha_pago.astimezone(tz)
+
         data = {
             "orden_id": db_transaccion.orden_venta_id,
             "transaccion_id": db_transaccion.id,
             "cliente_nombre": db_resumen.cliente_nombre,
             "cliente_telefono": db_resumen.cliente_telefono,
-            "fecha": db_transaccion.fecha_pago,
+            "fecha": fecha_local.strftime("%d/%m/%Y"),
+            "hora": fecha_local.strftime("%H:%M:%S"),
             "metodo_pago": db_transaccion.metodo_pago,
             "monto": db_transaccion.monto_abonado,
             "total": db_resumen.monto_total,

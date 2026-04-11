@@ -1,11 +1,21 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PlainSerializer
 from datetime import datetime
 from decimal import Decimal
+from typing import Annotated
 from app.schemas.orden_venta_schema import OrdenVentaResumen
+
+DecimalFormatted = Annotated[
+    Decimal,
+    PlainSerializer(
+        lambda x: float(x),  # Convierte Decimal a float
+        return_type=float,
+        when_used="json"
+    )
+]
 
 class TransaccionBase(BaseModel):
     orden_venta_id: int
-    monto_abonado: Decimal = Field(gt=0)
+    monto_abonado: DecimalFormatted = Field(gt=0)
     metodo_pago: str | None = None
     nota: str | None = None
 

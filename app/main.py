@@ -8,6 +8,7 @@ from app.controllers import plan_pago_controller
 from app.controllers import transaccion_controller
 from app.controllers import auth_controller
 from app.controllers import usuario_controller
+from app.controllers import panel_controller
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
 
@@ -26,6 +27,7 @@ app.include_router(plan_pago_controller.router, prefix="/planes-de-pago", tags=[
 app.include_router(transaccion_controller.router, prefix="/transacciones", tags=["TRANSACCIONES (transacciones)"])
 app.include_router(auth_controller.router, prefix="/auth", tags=["Auth"])
 app.include_router(usuario_controller.router, prefix="/usuario", tags=["Usuarios"])
+app.include_router(panel_controller.router, prefix="/panel-principal", tags=["Panel"])
 
 @app.get("/")
 def root():

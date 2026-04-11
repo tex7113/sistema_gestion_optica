@@ -1,58 +1,178 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <title>Ticket</title>
+
     <style>
         body {
-          font-family: Arial;
-          font-size: 12px;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
         }
 
-        .ticket {
-          width: 300px;
+        .container {
+            width: 400px;
+            margin: 40px auto;
+        }
+
+        .ticket-header {
+            background-color: #0a9f2e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .ticket-header .icon {
+            font-size: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .title {
-          text-align: center;
-          font-weight: bold;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .line {
-          border-top: 1px dashed black;
-          margin: 10px 0;
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .danger {
+            color: red;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 48%;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-primary {
+            background: #007bff;
         }
     </style>
+
 </head>
 
 <body>
 
-<div class="ticket">
+<div class="container">
 
-    <div class="title">
-        OPTICA VISION
+    <!-- HEADER -->
+    <div class="ticket-header">
+        <div class="icon">✔</div>
+        <h3>Pago Registrado</h3>
     </div>
 
-    <div class="line"></div>
+    <!-- BODY -->
+    <div class="card">
 
-    <p>Orden: {{ orden_id }}</p>
-    <p>Cliente: {{ cliente_nombre }}</p>
-    <p>Fecha: {{ fecha }}</p>
+        <div class="title">ÓPTICA JOMA</div>
 
-    <div class="line"></div>
+        <hr>
 
-    <p>Transacción: {{ transaccion_id }}</p>
-    <p>Método: {{ metodo_pago }}</p>
-    <p>Monto abonado: ${{ monto }}</p>
+        <div class="row">
+            <div class="label">Orden:</div>
+            <div>{{ orden_id }}</div>
+        </div>
 
-    <div class="line"></div>
+        <div class="row">
+            <div class="label">Cliente:</div>
+            <div>{{ cliente_nombre }}</div>
+        </div>
 
-    <p>Total orden: ${{ total }}</p>
-    <p>Total pagado: ${{ pagado }}</p>
-    <p>Saldo restante: ${{ restante }}</p>
+        <div class="row">
+            <div class="label">Fecha:</div>
+            <div>{{ fecha }}</div>
+        </div>
 
-    <div class="line"></div>
+        <div class="row">
+            <div class="label">Hora:</div>
+            <div>{{ hora }}</div>
+        </div>
 
-    <p style="text-align:center">
-        Gracias por su preferencia
-    </p>
+        <div class="row">
+            <div class="label">Método:</div>
+            <div>{{ metodo_pago }}</div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="label">Codigo de ticket:</div>
+            <div>{{ transaccion_id }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Monto abonado:</div>
+            <div class="success">$ {{ monto }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Total orden:</div>
+            <div>$ {{ total }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Total pagado:</div>
+            <div>$ {{ pagado }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Saldo restante:</div>
+            <div class="danger">$ {{ restante }}</div>
+        </div>
+
+        <hr>
+
+        <div class="footer">
+            Gracias por su preferencia
+        </div>
+
+    </div>
 
 </div>
 

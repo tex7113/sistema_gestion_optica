@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.params import Query
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.transaccion_schema import TransaccionCreate, PagoResponse, TransaccionResponse
@@ -20,18 +21,22 @@ def obtener_transaccion_por_id(transaccion_id: int, db: Session = Depends(get_db
 def obtener_transacciones(db: Session = Depends(get_db)):
     return TransaccionService.listar(db)
 
-@router.get("/saldo-pendiente", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))])
+@router.get("/saldo-pendiente/{orden_venta_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))])
 def consultar_saldo_pendiente(orden_venta_id: int, db: Session = Depends(get_db)):
     return TransaccionService.saldo_pendiente(db, orden_venta_id)
 
 @router.get("/ticket/{id}")
-def descargar_ticket(transaccion_id: int, db: Session = Depends(get_db)):
-    pdf = TransaccionService.generar_ticket_pago(db, transaccion_id)
+def descargar_ticket(
+        id: int,
+        timezone: str = Query("UTC", description="Zona horaria del usuario, ej. America/Mexico_City"),
+        db: Session = Depends(get_db)
+):
+    pdf = TransaccionService.generar_ticket_pago(db, id, timezone)
     return Response(
         content=pdf,
         media_type="application/pdf",
         headers={
             "Content-Disposition":
-                f"attachment; filename=ticket_{transaccion_id}.pdf"
+                f"attachment; filename=ticket_{id}.pdf"
         }
     )
