@@ -26,7 +26,7 @@ class TransaccionRepository:
         query = db.query(func.coalesce(func.sum(Transaccion.monto_abonado), 0)).filter(
             Transaccion.orden_venta_id == orden_id
         )
-        if date:
+        if date is not None:
             query = query.filter(Transaccion.fecha_pago <= date)
         return query.scalar()
 
