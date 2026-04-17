@@ -1,9 +1,14 @@
 from sqlalchemy.orm import Session
 
 from app.models.usuario_model import Usuario
+from app.schemas.usuario_schema import UsuarioCreate
 
 
 class UsuarioRepository:
+
+    @staticmethod
+    def get_usuarios(db: Session):
+        return db.query(Usuario).all()
 
     @staticmethod
     def get_by_email(db: Session, email:str):
@@ -25,6 +30,38 @@ class UsuarioRepository:
         db.commit()
         db.refresh(usuario)
         return usuario
+    
+    @staticmethod
+    def update(db:Session, usuario_id: int, usuario: UsuarioCreate):
+        db_usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+        
+        if not db_usuario:
+            return None
+        for key, value in usuario.model_dump(exclude_unset=True).items():
+            setattr(db_usuario, key, value)
+        db.commit()
+        db.refresh(db_usuario)
+        return db_usuario
+    
+    @staticmethod
+    def desactivate(db: Session, usuario_id: int):
+        db_usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+        if not db_usuario:
+            return None
+        db_usuario.activo = False
+        db.commit()
+        db.refresh(db_usuario)
+        return db_usuario
+
+    @staticmethod
+    def activate(db:Session, usuario_id: int):
+        db_usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+        if not db_usuario:
+            return None
+        db_usuario.activo = True
+        db.commit()
+        db.refresh(db_usuario)
+        return db_usuario
 
 
 #Crear Administradores
