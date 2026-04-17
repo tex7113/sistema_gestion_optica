@@ -5,7 +5,13 @@ from app.schemas.cliente_schema import ClienteCreate
 class ClienteRepository:
 
     @staticmethod
-    def get_clientes(db: Session):
+    def get_clientes(db: Session, fecha_inicio = None, fecha_fin = None):
+        if fecha_inicio is not None and fecha_fin is not None:
+            return db.query(Cliente).filter(
+                Cliente.fecha_registro >= fecha_inicio,
+                Cliente.fecha_registro <= fecha_fin
+            ).all()
+
         return db.query(Cliente).all()
 
     @staticmethod
@@ -41,6 +47,16 @@ class ClienteRepository:
         if not db_cliente:
             return None
         db_cliente.activo = False
+        db.commit()
+        db.refresh(db_cliente)
+        return db_cliente
+
+    @staticmethod
+    def activate_cliente(db:Session, cliente_id: int):
+        db_cliente = db.query(Cliente).filter(Cliente.id == cliente_id).first()
+        if not db_cliente:
+            return None
+        db_cliente.activo = True
         db.commit()
         db.refresh(db_cliente)
         return db_cliente

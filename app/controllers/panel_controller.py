@@ -14,7 +14,5 @@ def panel_principal(
         fecha: str = Query(None, description="Fecha a consultar, ej. YYYY-MM-DD. Automatico Hoy"),
         db: Session = Depends(get_db)
 ):
-    if fecha:
-        fecha = datetime.strptime(fecha, "%Y-%m-%d").date()
 
     return PanelService.obtener_informacion_del_dia(db,fecha)

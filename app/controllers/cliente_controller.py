@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.params import Query
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.cliente_schema import ClienteCreate, ClienteResponse, ClienteDetailResponse
@@ -8,8 +9,12 @@ from app.dependencies.auth_dependency import require_role, get_current_user
 router = APIRouter()
 
 @router.get("/",dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))] , response_model=list[ClienteResponse])
-def listar_clientes(db: Session = Depends(get_db)):
-    return ClienteService.listar(db)
+def listar_clientes(
+        fecha_inicio: str = Query( None, description="Fecha inicial a consultar, ej. YYYY-MM-DD (OPCIONAL)."),
+        fecha_fin: str = Query( None, description="Fecha de final a consultar, ej. YYYY-MM-DD (OPCIONAL) .)"),
+        db: Session = Depends(get_db)
+):
+    return ClienteService.listar(db, fecha_inicio, fecha_fin)
 
 @router.get("/{cliente_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=ClienteDetailResponse)
 def obtener_cliente_por_id(cliente_id: int, db: Session = Depends(get_db)):
@@ -30,3 +35,7 @@ def actualizar_cliente(cliente_id: int, cliente:ClienteCreate, db:Session = Depe
 @router.delete("/{cliente_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=ClienteResponse)
 def eliminar_cliente(cliente_id: int, db:Session = Depends(get_db)):
     return ClienteService.eliminar(db, cliente_id)
+
+@router.put("/activar/{cliente_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=ClienteResponse)
+def activar_cliente(cliente_id: int, db:Session = Depends(get_db)):
+    return ClienteService.activar(db, cliente_id)

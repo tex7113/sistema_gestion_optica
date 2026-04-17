@@ -24,7 +24,7 @@ class Receta(Base):
 
     observaciones: Mapped[str | None] = mapped_column(Text)
     recomendacion_lente: Mapped[str | None] = mapped_column(String(100))
-    fecha_creacion: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True),server_default=func.now(),nullable=False)
+    fecha_creacion: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True),server_default=func.now(),nullable=False, index=True)
 
     # Relación
     cliente = relationship("Cliente", back_populates="recetas")

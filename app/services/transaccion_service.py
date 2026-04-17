@@ -79,7 +79,7 @@ class TransaccionService:
 
 
     @staticmethod
-    def generar_ticket_pago(db: Session, transaccion_id: int, timezone: str = "UTC"):
+    def generar_ticket_pago(db: Session, transaccion_id: int, timezone = None):
         db_transaccion: TransaccionResponse = TransaccionRepository.get_by_id(db, transaccion_id)
         if db_transaccion is None:
             raise HTTPException(status_code=404, detail="No se encontro ninguna transaccion")
@@ -87,6 +87,9 @@ class TransaccionService:
         db_resumen:OrdenVentaResumen = OrdenVentaService.resumen_financiero(db, db_transaccion.orden_venta_id, db_transaccion.fecha_pago)
         if db_resumen is None:
             raise HTTPException(status_code=404, detail="error")
+
+        if timezone is None:
+            timezone = "America/Mexico_City"
 
         tz = ZoneInfo(timezone)
 

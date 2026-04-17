@@ -28,7 +28,7 @@ def consultar_saldo_pendiente(orden_venta_id: int, db: Session = Depends(get_db)
 @router.get("/ticket/{id}")
 def descargar_ticket(
         id: int,
-        timezone: str = Query("UTC", description="Zona horaria del usuario, ej. America/Mexico_City"),
+        timezone: str = Query( None, description="Zona horaria del usuario, ej. America/Mexico_City"),
         db: Session = Depends(get_db)
 ):
     pdf = TransaccionService.generar_ticket_pago(db, id, timezone)
