@@ -42,7 +42,7 @@ class UsuarioService:
             rol=usuario.rol
         )
 
-        return UsuarioRepository.create_user(db, db_usuario)
+        return UsuarioRepository.create(db, db_usuario)
 
     @staticmethod
     def actualizar(db: Session, usuario_id: int, usuario: UsuarioCreate):

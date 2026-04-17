@@ -25,9 +25,9 @@ def actualizar_usuarios(usuario_id:int, usuario:UsuarioCreate, db:Session = Depe
 
 
 @router.put("/desactivar-usuario/{usuario_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=UsuarioResponse)
-def eliminar_usuarios(usuario_id: int, db:Session = Depends(get_db)):
+def desactivar_usuarios(usuario_id: int, db:Session = Depends(get_db)):
     return UsuarioService.eliminar(db, usuario_id)
 
 @router.put("/activar-usuario/{usuario_id}", dependencies=[Depends(require_role(["ADMIN", "VENDEDOR"]))], response_model=UsuarioResponse)
-def eliminar_usuarios(usuario_id: int, db:Session = Depends(get_db)):
-    return UsuarioService.eliminar(db, usuario_id)
+def activar_usuarios(usuario_id: int, db:Session = Depends(get_db)):
+    return UsuarioService.activar(db, usuario_id)

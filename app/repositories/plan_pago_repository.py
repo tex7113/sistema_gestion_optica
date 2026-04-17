@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.plan_pago_model import PlanPago
 from app.schemas.plan_pago_schemas import PlanPagoCreate
@@ -11,7 +12,10 @@ class PlanPagoRepository:
 
     @staticmethod
     def get_by_id(db:Session, plan_id: int):
-        return db.query(PlanPago).filter(PlanPago.id == plan_id).first()
+        db_plan = db.query(PlanPago).filter(PlanPago.id == plan_id).first()
+        if db_plan is None:
+            raise HTTPException(status_code=404, detail=f"Plan de pagos con id:{plan_id} no encontrado")
+        return db_plan
 
     @staticmethod
     def get_by_orden_venta(db: Session, orden_venta_id: int):
