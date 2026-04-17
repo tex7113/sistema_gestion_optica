@@ -64,6 +64,7 @@ class UsuarioRepository:
         return db_usuario
 
 
+
 #Crear Administradores
     # @staticmethod
     # def create_admin(db: Session, email: str, password: str, rol: str):
